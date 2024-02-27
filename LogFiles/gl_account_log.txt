@@ -1,0 +1,27 @@
+ERROR - 2024-02-23 17:54:48 - cron start
+
+ERROR - 2024-02-23 17:54:48 - tuple indices must be integers or slices, not str
+
+ERROR - 2024-02-23 17:54:53 - cron start
+
+ERROR - 2024-02-23 17:54:53 - tuple indices must be integers or slices, not str
+
+ERROR - 2024-02-23 17:55:18 - cron start
+
+ERROR - 2024-02-23 17:55:18 - tuple indices must be integers or slices, not str
+
+ERROR - 2024-02-23 17:55:25 - cron start
+
+ERROR - 2024-02-23 17:55:25 - tuple indices must be integers or slices, not str
+
+ERROR - 2024-02-23 17:56:31 - cron start
+
+ERROR - 2024-02-23 17:56:31 - tuple indices must be integers or slices, not str
+
+ERROR - 2024-02-23 17:56:54 - cron start
+
+ERROR - 2024-02-23 17:57:13 - cron start
+
+ERROR - 2024-02-23 17:57:49 - cron start
+
+ERROR - 2024-02-23 17:58:18 - cron start

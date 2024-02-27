@@ -1,0 +1,16 @@
+# This APIs used for update cencel entries in JE
+http://103.107.67.172:8000/Ledure/Report/CancelTransaction.xsjs
+
+# SeriesName for CNNo number in invoice
+http://103.107.67.172:8000/Ledure/General/SeriesName.xsjs?DBName=RG_Industries_Live_&DocEntry={DocEntry}&ObjType=14
+
+# This API used to get HSN name of HSN entry for invoice, creditenote or other documents  
+http://103.107.67.172:8000/Ledure/General/GetHSN.xsjs?DBName=RG_Industries_Live_&AbsEntry={HSNEntry}
+
+# This API used to get SACName of SACEntry for invoice, creditenote or other documents  
+http://103.107.67.172:8000/Ledure/General/GetSacName.xsjs?DBName=RG_Industries_Live_&AbsEntry={SACEntry}
+
+# this api is used to get receivable
+http://103.107.67.172:8000/Ledure/Report/Aging1.xsjs
+
+http://103.107.67.172:8000/Ledure/General/Reconcilation_New.xsjs?DBName=RG_Industries_Live_&From={startDate}&ToDate={endDate}

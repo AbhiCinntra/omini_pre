@@ -1,0 +1,104 @@
+-----Create-----
+{
+	"TaxDate": "2021-11-03",
+	"DocDueDate": "2022-01-15",
+	"ContactPersonCode": "59",
+	"DiscountPercent": "10",
+	"DocDate": "2022-01-12",
+	"CardCode": "C47",
+	"Comments": "Test new",
+	"SalesPersonCode": "7",
+	"AddressExtension": [{
+		"BillToBuilding": "test new",
+		"ShipToState": "DL",
+		"BillToCity": "Noida",
+		"ShipToCountry": "IN",
+		"BillToZipCode": "100558",
+		"ShipToStreet": "Test",
+		"BillToState": "DL",
+		"ShipToZipCode": "100558",
+		"BillToStreet": "Test",
+		"ShipToBuilding": "test",
+		"ShipToCity": "Noida",
+		"BillToCountry": "IN",
+		"U_OPPRNM": "trustfund",
+		"U_SCOUNTRY": "India",
+		"U_SSTATE": "Delhi",
+		"U_SHPTYPB": "Fedex ON",
+		"U_BSTATE": "Delhi",
+		"U_BCOUNTRY": "India",
+		"U_SHPTYPS": "Fedex ON"
+	}],
+	"DocumentLines": 
+		[{
+		"Quantity": "12",
+		"UnitPrice": 120.0,
+		"DiscountPercent": "1",
+		"ItemCode": "IT0001",
+		"TaxCode": "Service"
+		}],
+    "CreateDate":"2021-08-15",
+    "CreateTime":"15:36:00",
+    "UpdateDate":"2021-08-15",
+    "UpdateTime":"15:36:00"
+}
+------update-----
+
+{
+	"id": 9,
+	"TaxDate": "2022-01-10",
+	"ContactPersonCode": "59",
+	"DiscountPercent": "108",
+	"CardCode": "C47",
+	"Comments": "Test new",
+	"SalesPersonCode": "7",
+	"AddressExtension": [
+		{
+			"id": 4,
+			"QuotationID": "9",
+			"BillToBuilding": "test new",
+			"ShipToState": "DL",
+			"BillToCity": "Noida",
+			"ShipToCountry": "IN",
+			"BillToZipCode": "100558",
+			"ShipToStreet": "Test",
+			"BillToState": "DL",
+			"ShipToZipCode": "100558",
+			"BillToStreet": "Test",
+			"ShipToBuilding": "test",
+			"ShipToCity": "Noida",
+			"BillToCountry": "IN",
+			"U_OPPRNM": "trustfund",
+			"U_SCOUNTRY": "India",
+			"U_SSTATE": "Delhi",
+			"U_SHPTYPB": "Fedex ON",
+			"U_BSTATE": "Delhi",
+			"U_BCOUNTRY": "India",
+			"U_SHPTYPS": "Fedex ON"
+		}
+	],
+	"DocumentLines": [
+		{
+			"id": 2,
+			"QuotationID": "9",
+			"Quantity": "12",
+			"UnitPrice": "120.0",
+			"DiscountPercent": 1.0,
+			"ItemCode": "IT0001",
+			"TaxCode": "Service"
+		},
+		{
+			"id":3,
+			"QuotationID": "9",
+			"Quantity": "12",
+			"UnitPrice": "150.0",
+			"DiscountPercent": 1.0,
+			"ItemCode": "IT0002",
+			"TaxCode": "Service"
+		}
+	],
+	"CreateDate": "2021-08-15",
+	"CreateTime": "15:36:00",
+	"UpdateDate": "2021-08-15",
+	"UpdateTime": "15:36:00"
+}

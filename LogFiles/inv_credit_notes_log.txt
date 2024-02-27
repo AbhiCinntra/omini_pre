@@ -1,0 +1,5 @@
+ERROR - 2024-02-23 18:31:05 - cron start
+
+ERROR - 2024-02-23 18:31:06 - name 'line' is not defined
+
+ERROR - 2024-02-23 18:33:27 - cron start

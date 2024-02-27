@@ -1,0 +1,46 @@
+-------create capset--------
+ {
+            "id": 1,
+            "CampaignSetName": "Bridge Launch",
+            "CampaignAccess": "1,2,3",
+            "Description": "about camp Description",
+            "LeadSource": "Facebook,Whatsapp",
+            "LeadPriority": "Hot,Warm",
+            "LeadStatus": "Follow Up",
+            "LeadFromDate": "2022-04-08",
+            "LeadToDate": "2022-06-08",
+            "OppType": "",
+            "OppSalePerson": "",
+            "OppStage": "",
+            "OppFromDate": "",
+            "OppToDate": "",
+            "BPType": "",
+            "BPSalePerson": "",
+            "BPCountry": "IN",
+            "BPState": "DL",
+            "BPIndustry": "",
+            "BPFromDate": "",
+            "BPToDate": "",
+            "MemberList": "",
+            "Status": 0,
+            "CreateDate": "2022-06-08",
+            "CreateTime": "12:30 PM",
+            "CampaignSetOwner": "1",
+            "CreateBy": "1"
+        }
+
+
+
+----camp create---
+{
+"CampaignName":"SAP offer",
+"CampaignOwner":"2",
+"StartDate":"2022-06-14",
+"EndDate":"2022-06-30",
+"Type":"Whatsapp",
+"Frequency":"Daily",
+"Message":"SAP offer 10% on configration",
+"Status":"1",
+"CreateDate":"2022-06-14",
+"CreateTime":"13:05:17"
+}

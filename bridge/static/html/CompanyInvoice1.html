@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width">
+  <title>Invoice</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+  <style>
+    :root {
+      --left-bg-color: #f9ecd3;
+      --template-bg-color: #f5d6b8;
+      --template-btn-bg: #5e5e5e;
+      --template-btn-bg-light: rgba(120, 35, 46, 0.5);
+    }
+
+    body {
+      margin-top: 20px;
+      background: #eee;
+    }
+
+    * {
+      font-size: 13px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .main-header {
+      background-color: #518DE3;
+      color: white;
+    }
+
+    .main-header .content h4 {
+      padding-left: 10px;
+    }
+
+    .main-header1 {
+      background-color: rgb(19, 19, 82);
+      color: white;
+      width: 100%;
+      display: flex;
+    }
+
+    .content {
+      width: 80%;
+    }
+
+    .bnk-dtl {
+      width: 19%;
+    }
+
+    .second {
+      width: 100%;
+      display: flex;
+    }
+
+    .left {
+      width: 62%;
+      /*border-right: 2px solid black; */
+    }
+
+    .right {
+      width: 38%;
+    }
+
+    .right .quotaion-heading {
+      text-align: right;
+    }
+
+    .right-tbl {
+      margin-top: 100px;
+    }
+
+    .ftr1 {
+      text-align: center;
+      font-weight: 600;
+    }
+
+    #api2 tr td {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .invoice {
+      background: #fff;
+      padding: 20px;
+      width: fit-content;
+      border: 2px solid var(--template-bg-color);
+    }
+
+    .invoice-company {
+      font-size: 20px;
+      font-weight: bold !important;
+    }
+
+    .invoice-footer {
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 10px
+    }
+
+    .invoice-note {
+      color: #999;
+      margin-top: 80px;
+      font-size: 85%
+    }
+
+    .invoice>div:not(.invoice-footer) {
+      margin-bottom: 10px
+    }
+
+    .btn.btn-white,
+    .btn.btn-white.disabled,
+    .btn.btn-white.disabled:focus,
+    .btn.btn-white.disabled:hover,
+    .btn.btn-white[disabled],
+    .btn.btn-white[disabled]:focus,
+    .btn.btn-white[disabled]:hover {
+      color: #2d353c;
+      background: #fff;
+      border-color: #d9dfe3;
+    }
+
+    table,
+    th,
+    td {
+      border: 2px solid;
+      border-collapse: collapse;
+      text-align: left;
+      padding: 8px;
+      color: black;
+    }
+
+    .box {
+      margin: 0 10%;
+    }
+
+    .logo-img {
+      width: 185px
+    }
+
+    @media screen and (max-width: 600px) {
+      #res1des {
+        font-size: 10px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        font-size: 13px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      body {
+        background-color: white;
+      }
+
+      .box {
+        width: 100vw;
+      }
+
+      .invoice-price .invoice-price-left,
+      .invoice-price .invoice-price-right {
+        padding: 0px;
+        font-size: 0px;
+      }
+
+      .invoice-price .invoice-price-right {
+        font-size: 5px;
+        text-align: center;
+      }
+
+      .box {
+        margin: 0 0%;
+      }
+
+      .second .left {
+        width: 45%;
+      }
+
+      .second .right {
+        width: 55%;
+      }
+
+      .right .quotaion-heading {
+        padding-left: 20px;
+      }
+
+      .logo-img {
+        width: 100px
+      }
+
+      .gst {
+        font-size: 12px;
+        margin-top: 50px !important;
+      }
+
+      .table-responsive {
+        overflow: scroll;
+      }
+
+      .ftr1 {
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .ftr1 span {
+        font-size: 10px;
+      }
+
+      .right-tbl {
+        margin-left: 10px;
+        margin-top: 56px;
+      }
+
+      .text-right {
+        font-size: 11px;
+      }
+
+      .test1 {
+        font-size: 13px;
+      }
+
+      .content {
+        height: 30px;
+        padding-top: 10px;
+        padding-bottom: 0px;
+      }
+    }
+
+    @media print {
+      .right-print1 {
+        display: none;
+      }
+
+      .box {
+        margin: 0px !important;
+      }
+
+      #hideexcbtn {
+        display: none;
+      }
+
+      .pagebreak {
+        page-break-before: always;
+      }
+    }
+
+    .validTill {
+      background: var(--template-btn-bg);
+      color: #fff;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="invoice">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="container box">
+      <div class="col-md-12">
+        <div class="invoice">
+          <!-- begin invoice-company -->
+          <div class="invoice-company text-inverse f-w-600">
+            <span class="pull-right hidden-print ">
+              <!-- <button class="waves-effect waves-light" onclick="generatePDF()">Download</button> -->
+              <!-- <a href="javascript:;" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-file t-plus-1 text-danger fa-fw fa-lg"></i> Export as PDF</a> -->
+              <a href="javascript:;" onclick="generatePDF()" class="btn btn-sm btn-white m-b-10 p-l-5 right-print1" style="background-color:#fff;color:black; border-radius: 4px;padding: 10px;text-decoration: none;"><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Download</a>
+              <!-- <button id="hideexcbtn" onclick="Export2Doc(&#39;invoice&#39;);">Export as .doc</button> -->
+              <!-- <a href="javascript:;" onclick="myFunction()"
+                            class="btn btn-sm btn-white m-b-10 p-l-5 right-print1"
+                            style="background-color:#fff;color:black; border-radius: 4px;padding: 10px;text-decoration: none;"><i
+                                class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print</a> -->
+            </span><span class="typs" style="font-size: 20px;
+    font-weight: bold !important;">Invoice</span>
+            <!-- Quotation -->
+          </div>
+          <!-- end invoice-company -->
+
+          <!-- begin invoice-header -->
+          <!--  <div class="main-header">
+                        <div class="content">
+                            <h4 style="display: inline-block;">Quotation :</h4>
+                            <h5 id="qtp" style="display: inline-block;"></h5>
+                        </div>
+                    </div> -->
+
+          <div class="second">
+
+            <div class="left">
+              <div class="log1">
+              </div>
+              <div class="addrs k">
+                <p> <span style="font-size:14px; font-weight:bold" class="cardName"></span> <br> <span style="font-size:14px; font-weight:bold">Address:</span><span class="cardAddress"> </span><br> <span style="font-weight:bold">Phone:</span> <span class="cardNumber">+91 11181981811</span>
+                  <br>
+                  <span style="font-weight:bold">GSTIN/UIN:</span> 36 AAACN2184K1ZC <br>
+                  <!-- <span style="font-weight:bold">State Name:</span> Uttar Pradesh <span style="font-weight:bold">Code:</span> 201301 <br> -->
+                  <!-- <span style="font-weight:bold">CIN:</span>U74120DL2010PLC205490 <br>Gst -->
+                  <!-- <span style="font-weight:bold">E-Mail:</span>marketing@cinntra.com -->
+                </p>
+              </div>
+
+            </div>
+
+            <div class="right">
+              <!-- <div class="quotaion-heading">
+                <img src="../../assets/img/Shivtara-log-img.jpg" style="max-width:250px; width:80%;" alt="Bridge Logo">
+              </div> -->
+              <!-- <div class="right-tbl" style="margin-top:30px"> -->
+              <div style="text-align: -webkit-center;">
+                <table style="width:100%;" border="1">
+
+                  <tr>
+                    <th>Invoice No.:</th>
+                    <th id="disp_qut">
+                      </td>
+
+                  </tr>
+                  <tr>
+                    <th>Date:</th>
+                    <th id="disp_date" value="">
+                      </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- begin invoice-content -->
+          <div class="invoice-content">
+            <!-- begin table-responsive -->
+            <div class="table-responsive">
+              <!-- first-table-with-image-begin---------------------------------------- -->
+              <table class="table table-invoice" width="100%">
+                <tr style="background-color: var(--template-btn-bg);color: #FFF;">
+                  <th class="text-center cust_box">Customer</th>
+                  <!-- <th class="text-right" colspan="4">Our Bank Details</th> -->
+                </tr>
+                <tr>
+                  <td class="text-center pd cust_box"><span style="font-weight: bold;font-size: 14px;">Kind Attention: </span> <span id="kind_atn" style="text-transform: capitalize;"></span> <br>
+                    <span style="font-weight: bold;font-size: 14px;">Address:</span> <span id="addre" style="text-transform: capitalize;"></span> <br>
+                    <span style="font-weight: bold;font-size: 14px;"> Email Id: </span> <span id="eml" style="color:blue; text-decoration: underline;"></span>
+                    </h4>
+                  </td>
+
+                  <!-- <td class="text-right" colspan="4">
+                    <span style="font-weight:bold">Stand Alone</span><br>
+                    <span style="font-weight:bold">Bank Name:</span>YES Bank Account<br>
+                    <span style="font-weight:bold">A/C:</span>1111111111<br>
+                    <span style="font-weight:bold">IFSC Code:</span>YESB0000184
+                  </td> -->
+                </tr>
+
+
+                <tr style="background-color: var(--template-btn-bg);color: #FFF;">
+                  <th class="text-center" width="25%" style="width: 6px;">S.No</th>
+
+                  <!-- <th class="text-center disc2" width="10%" style="display:none">Area Code</th> -->
+
+                  <th class="text-center" width="25%" style="min-width: 75px;">Name</th>
+                  <!-- <th class="text-center" width="25%" style="min-width: 175px;">Description</th> -->
+                  <th class="text-center prd_img" style="display: none;">Image</th>
+                  <th class="text-center" width="5%">Qty</th>
+                  <!-- <th class="text-right" width="20%">Indicative Image</th> -->
+                  <!-- <th class="text-right" width="20%">Description</th> -->
+                  <th class="text-right" width="20%">UoM</th>
+                  <th class="text-right" width="20%">Tax(GST)</th>
+                  <th class="text-right" width="10%">Rate</th>
+                  <th class="text-right" width="25%" style="min-width: 75px;">Item Dis.(%)</th>
+                  <th class="text-right" width="15%" colspan="2">Amount(&#x20B9;)</th>
+                  <!-- <th class="text-right" width="15%">Tax Amt(&#x20B9;)</th> -->
+                  <!-- <th class="text-right" width="25%">Total Amount(&#x20B9;) </th> -->
+                </tr>
+
+                <!----end quotation header ----------------------------->
+
+                <tbody id="api1">
+
+                </tbody>
+
+                <!--begin Terms and condition---------------------------->
+
+                <!--end Terms and condition---------------------------->
+
+                <!--begin authorized signatory---------------------------->
+                <tr>
+                  <td class="text-right" colspan="5" style="padding: 0 8px;">
+                    <p class="specification" style="font-size:12px;"> <span style="font-weight:bold"> Payment Terms :</span> <span id="pytrm">Testing</span></p>
+                  </td>
+                  <td class="text-right validTill" colspan="5" style="padding: 0 8px;">
+                    <p class="specification" style="font-size:12px;"> <span style="font-weight:bold"> Valid Till :</span> <span id="validTill"></span></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-right specification" colspan="10" style="padding: 0 8px;">
+                    <p class="specification" style="font-size:12px;"> <span style="font-weight:bold"> Delivery Terms :</span> <span id="dlvtrm"></span></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-right specification" colspan="10" style="padding: 0 8px;">
+                    <!-- <p class="specification" style="font-size:12px;"> <span style="font-weight:bold"> Specification :</span> In line with our continual improvement, we reserve the right to modify the design and change the specification of any material, if in our opinion, such modifications
+                      constitute an improvement or is in accordance with revised standards of manufacturing methods. Therefore the specifications, illustrations, dimensions and weights given or agreed to by us in our proposal, catalogues,
+                      drawings, photographs etc. are not binding in detail.</p> -->
+                    <p>This is a computer generated document hence no signature required.</p>
+                  </td>
+                </tr>
+
+              </table>
+              <!-- first-table-with-image-end---------------------------------------- -->
+            </div>
+          </div>
+
+          <div class="invoice-footer">
+            <p class="text-center m-b-5" style="font-size:11px; font-weight:500">
+              FOR ANY QUERIES KINDLY CONTACT US!
+            </p>
+            <p class="text-center">
+              <span class="m-r-10" style="font-size:11px; font-weight:500"><i class="fa fa-fw fa-lg fa-globe"></i> <span id="spname1"></span></span>
+              <span class="m-r-10" style="font-size:11px; font-weight:500"><i class="fa fa-phone fa-lg fa-phone-volume"></i> <span id="spnumber1">NA</span></span>
+              <span class="m-r-10" style="font-size:11px; font-weight:500"><i class="fa fa-fw fa-lg fa-envelope"></i> <span id="spemail1">NA</span></span>
+            </p>
+          </div>
+          <!-- end invoice-footer -->
+        </div>
+      </div>
+    </div>
+    <br>
+
+    <script>
+      var str = window.location.href;
+      var before_dis = 0
+
+      var currentId = str.substring(str.indexOf('?id=') + 4);
+
+      var settings = {
+        "url": "http://103.107.67.160:8001/invoice/one",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+          "id": currentId
+        }),
+      };
+      $.ajax(settings).done(function (response) {
+        console.log(response)
+        var current_yr = response.data[0].CreateDate.substring(2, 4);
+        var nxt_yr = parseInt(response.data[0].CreateDate.substring(0, 2));
+        var dateObj = new Date(response.data[0].CreateDate);
+        var month2 = dateObj.getMonth() + 1;
+        var month = (month2 < 10 ? '0' : '') + month2;
+        var day = (dateObj.getDate() < 10 ? '0' : '') + dateObj.getDate();
+        var year = dateObj.getUTCFullYear();
+        var newdate = day + "-" + month + "-" + year;
+        console.log(newdate)
+        console.log(response.data[0])
+        $("#disp_date").html(newdate);
+        var d = new Date(response.data[0].CreateDate);
+        var year = String(d.getFullYear());
+        year = year.slice(2, 4);
+        var year1 = Number(year) + 1;
+        var type = '';
+        if (response.data[0].QuotType == 'Sales Quotation') {
+          type = 'QT';
+        } else {
+          type = 'PI';
+        }
+        $("#disp_qut").html(('Inv/' + year + '-' + year1 + '/1000' + response.data[0].id));
+        $(".cardName").html((response.data[0].CardName));
+        $(".cardAddress").html((response.data[0].AddressExtension[0].U_SCOUNTRY + " " + response.data[0].AddressExtension[0].BillToState + " " + response.data[0].AddressExtension[0].BillToCity + " " + response.data[0].AddressExtension[0].BillToStreet + " " + response.data[0].AddressExtension[0].BillToZipCode));
+        $(".cardNumber").html((response.data[0].QTNO));
+        $("#qtp").html((response.data[0].QTNO));
+        $(".typs").html((response.data[0].QuotType));
+        if (!!response.data[0].SalesPersonCode?.length) {
+          $("#spname").html(response.data[0].SalesPersonCode[0].SalesEmployeeName + " " + response.data[0].SalesPersonCode[0].lastName);
+          $("#spnumber").html(response.data[0].SalesPersonCode[0].Mobile);
+          $("#spemail").html(response.data[0].SalesPersonCode[0].Email);
+          $("#spname1").html(response.data[0].SalesPersonCode[0].SalesEmployeeName);
+          $("#spnumber1").html(response.data[0].SalesPersonCode[0].Mobile);
+          $("#spemail1").html(response.data[0].SalesPersonCode[0].Email);
+        } else {
+          $("#spname").html("NA");
+          $("#spnumber").html("NA");
+          $("#spemail").html("NA");
+          $("#spname1").html("NA");
+          $("#spnumber1").html("NA");
+          $("#spemail1").html("NA");
+        }
+        var termcond = response.data[0].U_Term_Condition == '' ? '' : '<br><br>12. ' + response.data[0].U_Term_Condition;
+        $(".test1").html("1.  Rates quoted are exclusive of local Taxes, duties, and Mathadi etc. <br><br>2.  GST of 18% shall be applicable extra.  <br><br>3.  Payment Terms: Advance 100% Prices and estimated shipping date are based upon the receipt of the LOI / Purchase order within ninety (90) days from the date of the proposal. The prices quoted are firm for delivery within the timeframe cited below. Further validity extension is based on request only. Prices and approval submittals/equipment shipping dates are subjected to adjustment if a purchase order is not received within 90 days from the date of the proposal.  <br><br>4.  Orders if finalized shall be placed on WAE corp as under WAE Ltd. H-18, Sector 63, Noida, UP, India Phone: +91 120 4069800 GST NO: 09AABCW0017F1ZQ Bank: AXIS Bank Account No: 912020020464941 IFSC Code: UTIB 0000723  <br><br>5.  Approval of Equipment and Drawing Submittal: Detailed Equipment and drawing submittals shall be forwarded after 01 week after receipt of the purchase order with advance.  <br><br>6.  Delivery: Delivery shall be within 8 weeks after receiving the firm Purchase Order. We shall use reasonable efforts to meet the dates specified above for the shipment of equipment, but such dates are estimates provided only to serve as a guide and not guaranteed. No liability, direct or indirect, is assumed by us for failure to ship on such dates. <br><br>7.  Limited Warranty: 12 months from handing over  <br><br>8.  There will be cancellation charges of 50% against the order that has already been confirmed.  <br><br>9.   Inspection of material is done at the site of delivery. Client or client’s representative is expected to check the material carefully & then sign the bill/receipt chalan.  <br><br>10.  Company will not be responsible for any of the breakages after the products have been checked/accepted and the bill has been signed by the client or client’s representative.  <br><br>11.  All installation of the machines is to be done by WAE technicians. The Warranty would be void in case the installation is done by any other technician." + termcond);
+        // $("#eml").html(response.data[0].BPEmail);
+        $("#eml").html(response.data[0].ContactPersonCode[0].E_Mail);
+        $("#dlvtrm").html(!!response.data[0].DeliveryTerm ? response.data[0].DeliveryTerm : "NA");
+        // $("#pytrm").html(response.data[0]?.PaymentGroupCode[0]?.PaymentTermsGroupName);
+        // $("#pytrm").html(!!response.data[0].PayTermsGrpCode[0].PaymentTermsGroupName ? response.data[0].PayTermsGrpCode[0].PaymentTermsGroupName : " NA");
+        var vdateObj = new Date(response.data[0].DocDueDate);
+        var vmonth2 = vdateObj.getMonth() + 1;
+        var vmonth = (vmonth2 < 10 ? '0' : '') + vmonth2;
+        var vday = (vdateObj.getDate() < 10 ? '0' : '') + vdateObj.getDate();
+        var vyear = vdateObj.getUTCFullYear();
+        var vnewdate = vday + "-" + vmonth + "-" + vyear;
+        $("#validTill").html(vnewdate);
+        // var img_res = (response.data[0].IMG.toLowerCase());
+        var text = "";
+        // var img_link = (img_res == 'no' ? '' : '../../assets/html/WAElogo.png');
+        let i = 1;
+        var tot_amt = finaltotal = tot_gst = dis_percent = discount_price = amount_discount = item_discount = itmDiscFlag = 0;
+        var AreaCodeFlag = '';
+        var MICharges = Number(response.data[0].MICharges);
+        var Intall = Number(response.data[0].Intall);
+        var LOCharges = Number(response.data[0].LOCharges);
+        var DiscountPercent = Number(response.data[0].DiscountPercent);
+        var AdditionCharge = Number(response.data[0].AdditionalCharges)
+        var DeliveryCharge1 = Number(response.data[0].DeliveryCharge)
+        var Totlaitemsgroddata = 0;
+
+        var shipping = ((response.data[0].ShippingAndHandling != "" && response.data[0].ShippingAndHandling != NaN && response.data[0].ShippingAndHandling > 0) && (response.data[0].ShippingText != "" && response.data[0].ShippingText > 0 && response.data[0].ShippingText != NaN)) ? parseInt(response.data[0].ShippingAndHandling) + parseInt((response.data[0].ShippingAndHandling) * ((response.data[0].ShippingText) / 100)) : 0;
+        dis_percent = response.data[0].DiscountPercent;
+        $.each(response.data[0].DocumentLines, function (key, val) {
+          AreaCodeFlag = 0;
+        });
+        $.each(response.data[0].DocumentLines, function (key, val) {
+          item_discount = val.DiscountPercent
+          // AreaCodeFlag += val.AreaCode
+          console.log(AreaCodeFlag)
+          itmDiscFlag += item_discount
+          if (itmDiscFlag > 0) {
+            $('.disc').removeAttr('style')
+          }
+          if (AreaCodeFlag != '') {
+            $('.disc2').removeAttr('style')
+          }
+          text += '<tr>';
+          var res1 = val.ItemDescription.replaceAll('•', '/•').split("/").join("<br>")
+          if (val.OR == '1' && val.Title == "") {
+            if (itmDiscFlag >= 0 && AreaCodeFlag != '') {
+              text += '<tr style="background-color:#518DE3; opacity:0.7">';
+              text += '<td colspan="11" style="text-align:center; color:white; font-weight:bold;">' + "OR" + '</td>';
+              text += '</tr>';
+            } else if (itmDiscFlag >= 0 || AreaCodeFlag != '') {
+              text += '<tr style="background-color:#518DE3; opacity:0.7">';
+              text += '<td colspan="10" style="text-align:center; color:white; font-weight:bold;">' + "OR" + '</td>';
+              text += '</tr>';
+            } else {
+              text += '<tr style="background-color:#518DE3; opacity:0.7">';
+              text += '<td colspan="9" style="text-align:center; color:white; font-weight:bold;">' + "OR" + '</td>';
+              text += '</tr>';
+            }
+          }
+
+          if (val.OR == '0' && val.Title != "") {
+            if (itmDiscFlag >= 0 && AreaCodeFlag != '') {
+              text += '<tr style="background-color:#518DE3; opacity:0.7">';
+              text += '<td colspan="11" style="text-align:center; color:white; font-weight:bold;">' + val.Title + '</td>';
+              text += '</tr>';
+            } else if (itmDiscFlag >= 0 || AreaCodeFlag != '') {
+              text += '<tr style="background-color:#518DE3; opacity:0.7">';
+              text += '<td colspan="10" style="text-align:center; color:white; font-weight:bold;">' + val.Title + '</td>';
+              text += '</tr>';
+            } else {
+              text += '<tr style="background-color:#518DE3; opacity:0.7">';
+              text += '<td colspan="9" style="text-align:center; color:white; font-weight:bold;">' + val.Title + '</td>';
+              text += '</tr>';
+            }
+          }
+          text += '<td id="res1des">' + i + '</td>';
+          if (AreaCodeFlag != '') {
+            // console.log(AreaCodeFlag)
+            if (val.AreaCode == '') {
+              text += '<td class="disc2">NA</td>';
+            } else {
+              text += '<td class="disc2">' + val.AreaCode + '</td>';
+            }
+          }
+          text += '<td id="res1des">' + val.ItemDescription + '</td>';
+          // text += '<td id="res1des">' + val.FreeText + '</td>';
+          // text += '<td id="res1des">' + 'NA' + '</td>';
+
+          if (itmDiscFlag > 0 && AreaCodeFlag != '') {
+            $(".specification").attr("colspan", "9");
+            $(".cust_box").attr("colspan", "12");
+            $(".term_cond").attr("colspan", "9");
+            $(".specification").attr("colspan", "9");
+            $(".footerfinal").attr("colspan", "11");
+          } else if (itmDiscFlag > 0 || AreaCodeFlag != '') {
+            $(".specification").attr("colspan", "10");
+            $(".cust_box").attr("colspan", "12");
+            $(".term_cond").attr("colspan", "10");
+            $(".specification").attr("colspan", "10");
+            $(".footerfinal").attr("colspan", "10");
+          } else {
+            $(".specification").attr("colspan", "10");
+            $(".cust_box").attr("colspan", "12");
+            $(".term_cond").attr("colspan", "9");
+            $(".specification").attr("colspan", "10");
+            $(".footerfinal").attr("colspan", "9");
+          }
+
+          tot_gst = tot_gst + ((val.TaxCode) * (val.UnitPrice * val.Quantity));
+          let valueWithoutTax = val.UnitPrice * val.Quantity;
+          before_dis += valueWithoutTax;
+          console.log(before_dis)
+
+
+          let valueafterDis = valueWithoutTax - ((valueWithoutTax * val.DiscountPercent) / 100);
+          let Finalvalue = valueafterDis + ((valueafterDis * val.Tax) / 100);
+
+          tot_amt += Finalvalue;
+          Finalvalue = Finalvalue.toFixed(2);
+          finaltotal = tot_amt - (tot_amt * DiscountPercent) / 100 + MICharges + Intall + LOCharges;
+
+          text += '<td id="res1des">' + val.Quantity + '</td>';
+          text += '<td id="res1des">' + val.UomNo + '</td>';
+          text += '<td id="res1des">' + val.TaxRate + '</td>';
+          text += '<td id="res1des">' + val.UnitPrice + '</td>';
+          // if (itmDiscFlag > 0) {
+          text += '<td class="">' + item_discount + '</td>';
+          // }
+
+          text += '<td id=" " colspan="2">' + (((val.UnitPrice * val.Quantity) - ((val.UnitPrice * val.Quantity) * DiscountPercent) / 100) + (((val.UnitPrice * val.Quantity) - ((val.UnitPrice * val.Quantity) * DiscountPercent) / 100) * val.TaxRate) / 100) + '</td>';
+          // text += '<td>' + "Best Square Table" + '</td>';
+          // text += '<td>' + (val.TaxCode) * (val.UnitPrice * val.Quantity) + '</td>';
+          // text += '<td>' + (((val.TaxCode) * (val.UnitPrice * val.Quantity)) + (val.UnitPrice * val.Quantity)) + '</td>';
+          text += '</tr>';
+          i++;
+          /* tot_gst = tot_gst + ((val.TaxCode) * (val.UnitPrice * val.Quantity));
+          tot_amt = tot_amt + (val.UnitPrice * val.Quantity);
+          discount_price = (((tot_amt) * dis_percent) / 100).toFixed(2);
+          amount_discount = (tot_amt - discount_price); */
+
+
+          // amount_discount = (tot_amt);
+          Totlaitemsgroddata += (((val.UnitPrice * val.Quantity) - ((val.UnitPrice * val.Quantity) * DiscountPercent) / 100) + (((val.UnitPrice * val.Quantity) - ((val.UnitPrice * val.Quantity) * DiscountPercent) / 100) * val.TaxRate) / 100)
+        })
+
+        /*if (dis_percent > 0) {
+            text += '<tr>';
+            text += '<th colspan="7">' + "Discount(&#8377;)" + '</th>';
+            text += '<th>' + discount_price + "/-" + '</th>';
+            text += '</tr>';
+        } */
+
+        text += '<tr>';
+        text += '<th colspan="5" rowspan="6" style=""></th>';
+        text += '<th colspan="3" style="">' + "Total Before Dis.(&#8377;)" + '</th>';
+        // text += '<th>' + (tot_amt.toFixed(2)) + '</th>';
+        text += '<th>' + before_dis + '</th>';
+        text += '</tr>';
+
+        text += '<tr>';
+        // text += '<th colspan="5" style=""></th>';
+        text += '<th colspan="3" style="">' + "Additional Charges (&#8377;)" + '</th>';
+        text += '<th>' + (AdditionCharge) + '</th>';
+        text += '</tr>';
+        text += '<tr>';
+        // text += '<th colspan="5" style=""></th>';
+        text += '<th colspan="3" style="">' + "Delivery Charges (&#8377;)" + '</th>';
+        text += '<th>' + (DeliveryCharge1) + '</th>';
+        text += '</tr>';
+
+        text += '<tr>';
+        // text += '<th colspan="5" style=""></th>';
+        text += '<th colspan="3" style="">' + "Discount %" + '</th>';
+        text += '<th>' + (DiscountPercent) + "%" + '</th>';
+        text += '</tr>';
+
+        // text += '<tr>';
+        // text += '<th colspan="3" style="">' + "Machine Installation Charges(&#8377;)" + '</th>';
+        // text += '<th>' + (MICharges.toFixed(2)) + '</th>';
+
+        // text += '</tr>';
+
+        // text += '<tr>';
+        // text += '<th colspan="3" style="">' + "Freight Charges(&#8377;)" + '</th>';
+        // text += '<th>' + 'NA' + '</th>';
+        // text += '</tr>';
+
+        // text += '<tr>';
+        // text += '<th colspan="3" style="">' + " Local Charges(&#8377;)" + '</th>';
+        // text += '<th>' + 'NA'+ '</th>';
+        // text += '</tr>';
+
+        text += '<tr>';
+        // text += '<th colspan="5" style=""></th>';
+        text += '<th colspan="3" style="">' + "Grand Total(&#8377;)" + '</th>';
+        // text += '<th>' + Math.round(finaltotal.toFixed(2)) + '</th>';
+        text += '<th>' + (Totlaitemsgroddata + AdditionCharge + DeliveryCharge1) + '</th>';
+        text += '</tr>';
+
+
+
+        //console.log(response.data[0], tot_amt, tot_gst, installation, insurance, packing, shipping);
+        document.getElementById("api1").innerHTML += text;
+        document.getElementById("kind_atn").innerHTML = response.data[0].ContactPersonCode[0].FirstName;
+        document.getElementById("addre").innerHTML = response.data[0].AddressExtension[0].BillToStreet + " " + response.data[0].AddressExtension[0].U_BSTATE + " " + response.data[0].AddressExtension[0].BillToZipCode + " " + response.data[0].AddressExtension[0].U_BCOUNTRY;
+      });
+
+      function myFunction() {
+        try {
+          document.execCommand('print', true, null)
+        } catch {
+          window.print()
+        }
+      }
+
+      function generatePDF() {
+        // const element = document.getElementById('invoice');
+        //                 var opt = {
+        //   margin:       0,
+        //   CSS: {'.box'},
+        //   filename:     'myfile.pdf',
+        //   image:        { type: 'jpeg', quality: 0.98 },
+        //   html2canvas:  { scale: 2 },
+        //   jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        // };
+        // console.log(element)
+        // html2pdf().set(opt).from(element).save();
+        window.print();
+      }
+
+      function Export2Doc(element, filename = '') {
+        //var html, link, blob, url, css;
+
+        /*css = (
+          '<style>' +
+          '@page WordSection1{size: 841.95pt 595.35pt;mso-page-orientation: landscape;}' +
+          'div.WordSection1 {page: WordSection1;}' +
+          '</style>'
+        );*/
+        var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+        var postHtml = "</body></html>";
+        var html = preHtml + document.getElementById(element).innerHTML + postHtml;
+
+        var blob = new Blob(['\ufeff', html], {
+          type: 'application/msword'
+        });
+        //var url = URL.createObjectURL(blob);
+        var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+
+        // Specify file name
+        filename = filename ? filename + '.doc' : 'document.doc';
+
+        // Create download link element
+        var downloadLink = document.createElement("a");
+
+        document.body.appendChild(downloadLink);
+
+        if (navigator.msSaveOrOpenBlob) {
+          navigator.msSaveOrOpenBlob(blob, filename); // IE10-11
+        } else {
+          // Create a link to the file
+          downloadLink.href = url;
+
+          // Setting the file name
+          downloadLink.download = filename;
+
+          //triggering the function
+          downloadLink.click();
+        }
+
+        document.body.removeChild(downloadLink);
+      }
+    </script>
+
+  </div>
+</body>
+
+</html>

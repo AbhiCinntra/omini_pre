@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>Quotation</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    <style>
+        body {
+            margin-top: 20px;
+            background: #eee;
+        }
+        
+        * {
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .main-header {
+            background-color: #518DE3;
+            color: white;
+        }
+        
+        .main-header .content h4 {
+            padding-left: 10px;
+        }
+        
+        .main-header1 {
+            background-color: rgb(19, 19, 82);
+            color: white;
+            width: 100%;
+            display: flex;
+        }
+        
+        .content {
+            width: 80%;
+        }
+        
+        .bnk-dtl {
+            width: 19%;
+        }
+        
+        .second {
+            width: 100%;
+            display: flex;
+        }
+        
+        .left {
+            width: 45%;
+        }
+        
+        .right {
+            width: 45%;
+        }
+        
+        .qr-cls {
+            width: 5%;
+            margin-left: 30px !important;
+            margin-right: 10px !important;
+        }
+        
+        .right .quotaion-heading {
+            text-align: center;
+        }
+        
+        .right-tbl {
+            margin-top: 100px;
+        }
+        
+        .ftr1 {
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        #api2 tr td {
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .invoice {
+            background: #fff;
+            padding: 20px;
+            width: fit-content;
+        }
+        
+        .invoice-company {
+            font-size: 20px
+        }
+        
+        .invoice-footer {
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            font-size: 10px
+        }
+        
+        .invoice-note {
+            color: #999;
+            margin-top: 80px;
+            font-size: 85%
+        }
+        
+        .invoice>div:not(.invoice-footer) {
+            margin-bottom: 20px
+        }
+        
+        .btn.btn-white,
+        .btn.btn-white.disabled,
+        .btn.btn-white.disabled:focus,
+        .btn.btn-white.disabled:hover,
+        .btn.btn-white[disabled],
+        .btn.btn-white[disabled]:focus,
+        .btn.btn-white[disabled]:hover {
+            color: #2d353c;
+            background: #fff;
+            border-color: #d9dfe3;
+        }
+        
+        table,
+        th,
+        td {
+            border: 1px solid #dddddd;
+            border-collapse: collapse;
+            text-align: left;
+            padding: 8px;
+        }
+        
+        .box {
+            margin: 0 10%;
+        }
+        
+        .logo-img {
+            width: 185px
+        }
+        
+        @media screen and (max-width: 600px) {
+            * {
+                margin: 0;
+                padding: 0;
+                font-size: 13px;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            body {
+                background-color: white;
+            }
+            .box {
+                width: 100vw;
+            }
+            .invoice-price .invoice-price-left,
+            .invoice-price .invoice-price-right {
+                padding: 0px;
+                font-size: 0px;
+            }
+            .invoice-price .invoice-price-right {
+                font-size: 5px;
+                text-align: center;
+            }
+            .box {
+                margin: 0 0%;
+            }
+            .second .left {
+                width: 45%;
+            }
+            .second .right {
+                width: 55%;
+            }
+            .right .quotaion-heading {
+                padding-left: 20px;
+            }
+            .logo-img {
+                width: 100px
+            }
+            .gst {
+                font-size: 12px;
+                margin-top: 50px !important;
+            }
+            .table-responsive {
+                overflow: scroll;
+            }
+            .ftr1 {
+                text-align: center;
+                font-weight: 600;
+            }
+            .ftr1 span {
+                font-size: 10px;
+            }
+            .right-tbl {
+                margin-left: 10px;
+                margin-top: 56px;
+            }
+            .text-right {
+                font-size: 11px;
+            }
+            .test1 {
+                font-size: 13px;
+            }
+            .content {
+                height: 30px;
+                padding-top: 10px;
+                padding-bottom: 0px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container box">
+        <div class="col-md-12">
+            <div class="invoice" style="border: 1px solid black">
+                <div class="second">
+                    <div class="left">
+                        <table class="border-0" style="width:100%; font-weight:bold;">
+                            <tr>
+                                <th colspan="3" style="padding-left:50px"> <img src="dash-logo.svg" style="width:150px" class="logo-img" alt="Bridge Logo"> </th>
+                            </tr>
+                            <tr>
+                                <td style="width:35%">Quotation No.</td>
+                                <td style="width:2%"> : </td>
+                                <td id="invoicenumber"></td>
+                            </tr>
+                            <tr rowspan="2">
+                                <td>Quotation Date</td>
+                                <td> : </td>
+                                <td id="invoiceDate"></td>
+                            </tr>
+                            <!-- <tr>
+                                <td>Order No.</td>
+                                <td> : </td>
+                                <td> 22200221 </td>
+                            </tr> -->
+                            <!-- <tr>
+                                <td>Order Date</td>
+                                <td> : </td>
+                                <td> 02/05/2022 </td>
+                            </tr> -->
+                            <tr hidden>
+                                <td>Quotation Date</td>
+                                <td> : </td>
+                                <td id="invoiceduedate"> </td>
+                            </tr>
+                            <!-- <tr>
+                                <td>Customer PO No.</td>
+                                <td> : </td>
+                                <td> Mail/GA </td>
+                            </tr> -->
+                        </table>
+
+                        <!-- <table style="width:100%; margin-top:10px">
+                            <tr>
+                                <td>
+                                    E-WayBill No :
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    IRN No. :
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    d4146391d6f78168fde29b10c4851d5e98a7265aa7c32f2bb2b274a279602b69
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Bill To : C00973
+                                </td>
+                            </tr>
+                        </table> -->
+
+                        <table style="width:100%; margin-top:20px">
+                            <tr>
+                                <th id="shipbuilding">
+                                </th>
+                            </tr>
+                            <tr rowspan="2">
+                                <td id="shipaddress1">
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- <div class="qr-cls">
+                        
+                        <img src="qr.png"
+                            style="width:100px" alt="QR Code">
+                    </div> -->
+
+                    <div style="width:5%; margin-right:20px"></div>
+
+                    <div class="right">
+                        <table style="width:100%;">
+                            <tr>
+                                <th id="buildbuilding1">
+
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <td id="buildaddress11">
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="buildteliphone">
+                                    <Span style="font-weight:bold">Tel:</Span>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="email">
+                                    <span style="font-weight:bold">Email:</span>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <table style="width:100%; margin-top:20px">
+                            <tr>
+                                <td style="font-weight:bold"> Ack No </td>
+                                <td> : </td>
+                                <td>NA </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold"> Ack Date </td>
+                                <td> : </td>
+                                <td> NA </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold">Ship To</td>
+                                <td> : </td>
+                                <td id="shiptoaddress"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- begin invoice-content   -->
+                <div class="invoice-content ">
+                    <!-- begin table-responsive -->
+                    <div class="table-responsive">
+                        <!--- first-table-begin  &#x20B9; ------------------------------------------>
+                        <table style="width:100%;">
+                            <tr>
+                                <th>S.No</th>
+                                <th>Catalogue Number</th>
+                                <th>Description/ Clone Id / Size/ Sequence No./ Lot No. / Expiry</th>
+                                <th>HSN/SAC Code</th>
+                                <th> Shipped Qty</th>
+                                <th>Unit Price</th>
+                                <th>Disc %</th>
+                                <th>Tax Rate</th>
+                                <th>Basic Value</th>
+                            </tr>
+                            <tbody id="api1">
+                                <!-- <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        <span class="catno">NA</span>
+                                    </td>
+                                    <td>
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td colspan="3">
+                                                    <span class="desc"></span>
+                                                   
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    Batch No
+                                                </th>
+                                                <th>
+                                                    Batch Qty
+                                                </th>
+                                                <th>
+                                                    Exp Date
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    NA
+                                                </td>
+                                                <td>
+
+                                                    NA
+                                                </td>
+                                                <td>
+                                                    NA
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <span class="hsnc"></span>
+                                        NA
+                                     
+                                    </td>
+                                    <td>
+                                        <span class="shpdqtty" id="Quantity"></span>
+                                       
+                                    </td>
+                                    <td>
+                                        <span class="UnitPrice" id="UnitPrice"></span>
+
+                                        
+                                    </td>
+                                    <td>
+                                        <span class="desc_per" id="iscountPercent"></span>
+                                        
+                                    </td>
+                                    <td>
+                                        <span class="TaxRate" id="TaxCode">0</span>
+                                       
+                                    </td>
+                                    <td>
+                                        NA
+                                    </td>
+                                </tr>  -->
+                            </tbody>
+                            <!-- <tbody> -->
+
+                            <tr>
+                                <th>
+                                    GST%
+
+                                </th>
+                                <th>Taxable Value</th>
+                                <th>CGST</th>
+                                <th>SGST</th>
+                                <th> IGST</th>
+                                <th>Total Tax</th>
+                                <th colspan="3" rowspan="5">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <th>
+                                                Total Discount
+                                            </th>
+                                            <td id="totaldiscount">
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <!-- Tax Amount -->
+                                                Doc Total
+                                            </th>
+                                            <td id="doctotal1">
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <!-- Freight Amount -->
+                                                Doc Currency
+                                            </th>
+                                            <td id="DocCurrency">
+
+
+                                            </td>
+                                        </tr>
+                                        <!-- <tr>
+                                            <th>
+                                                Freight Tax Amount
+                                            </th>
+                                            <td id="freighttax">
+                                                
+
+                                            </td>
+                                        </tr> -->
+                                        <tr>
+                                            <th>
+                                                Round Off
+                                            </th>
+                                            <td id="roundoff">
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                Total Amount
+                                            </th>
+                                            <td id="tot_amt">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </th>
+                            </tr>
+                            <tr id="gstrow">
+
+                            </tr>
+
+                            <!-- </tbody> -->
+                            <!-- <tbody> -->
+                            <tr id="totalrow">
+                                <!-- <th>Total</th> -->
+
+                                <!-- <th>
+                                    NA
+                                </th>
+                                <th>
+                                    NA
+                                </th>
+                                <th>
+                                    NA
+                                </th>
+                                <th>
+                                    NA
+                                </th>
+                                <th>
+                                    NA
+                                </th> -->
+                            </tr>
+                            <!-- </tbody> -->
+                            <!-- <tbody> -->
+                            <tr>
+                                <th>
+                                    Delivery No
+                                </th>
+                                <td>
+                                    :
+                                </td>
+                                <td colspan="9" id="delivryno">
+                                    NA
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <tH>
+                                    Delivery Date
+                                    </td>
+                                    <tH>
+                                        :
+                                        </td>
+                                        <td colspan="9" id="deliverydate">
+                                            NA
+
+
+                                        </td>
+                            </tr>
+                            <tr>
+                                <td colspan="9">
+                                    <span style="font-weight:bold"> Amount In Words: </span> &nbsp;&nbsp;&nbsp;
+                                    <span id="totalamountword"></span>
+                                </td>
+                            </tr>
+                            <!-- </tbody> -->
+                        </table>
+                        <!-------------- first-table-end ------------------------------------------->
+
+                        <!-- second table starts -->
+                        <table style="width:49.8%; display:inline-block">
+                            <tr>
+                                <th style="text-align:center">
+                                    Bank Details
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="font-size:10px !important;">
+                                    Name : <span style="font-size:12px !important; font-weight: 600;">Stand Alone</span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="font-size:10px !important">
+                                    A/C No. : <span style="font-size:12px !important; font-weight: 600;">1111111111</span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="font-size:10px !important">
+                                    Bank Name : <span style="font-size:12px !important; font-weight: 600;">YES Bank Account</span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="font-size:10px !important">
+                                    IFSC Code : <span style="font-size:12px !important; font-weight: 600;">YESB0000184</span>
+                                </th>
+                            </tr>
+
+                            <tr style="font-size:10px !important">
+                                <th>Terms and Conditions :<span style="font-size:12px !important; font-weight: 600;">Testing</span> </th>
+                            </tr>
+
+                            <tr>
+                                <th style="font-size:10px !important">
+                                    Payment Term - <span style="font-size:12px !important; font-weight: 600;">Testing</span>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th style="font-size:10px !important">
+                                    1.) Interest @ 24 % will be charged after due date.
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th style="font-size:10px !important">
+                                    2.) No Compliants in respect of material supplied vide this invoice will be entertained unless the same is lodged in writing within days of dispatch.
+                                </th>
+                            </tr>
+                        </table>
+                        <!-- second table ends -->
+
+                        <!-- third table starts -->
+                        <table style="width:49.8%; display:inline-block; height:290px; text-align:right">
+                            <tr>
+                                <th>
+                                    Krishi Rasayan Exports Private Limited
+                                </th>
+                            </tr>
+                            <tr>
+                                <td> Stamp </td>
+                            </tr>
+                            <tr>
+                                <th> Authorised Signatory</th>
+                            </tr>
+                        </table>
+                        <!-- third table ends -->
+
+                        <!-- footer begin -->
+                        <table style="width:100%; font-weight:bold">
+                            <tr>
+                                <th style=" text-align:center; ">
+                                    Cinntra Infotech Solutions Pvt.Ltd. E - 138, Sector 63,Noida, Uttar Pradesh – 201301 , India
+                                </th>
+                            </tr>
+                        </table>
+                        <!-- footer ends -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- script-start here -->
+    <script>
+        let url_str = window.location.href;
+        let url = new URL(url_str);
+        let search_params = url.searchParams;
+
+        var settings = {
+            "url": "http://103.234.187.197:8050/quotation/one",
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({
+                "id": 2
+            }),
+        };
+
+        $.ajax(settings).done(function(response) {
+            console.log(response.data[0])
+
+            var current_yr = response.data[0].CreateDate.substring(2, 4);
+            var nxt_yr = parseInt(response.data[0].CreateDate.substring(0, 2));
+            var dateObj = new Date(response.data[0].CreateDate);
+            var month2 = dateObj.getMonth() + 1;
+            var month = (month2 < 10 ? '0' : '') + month2;
+            var day = (dateObj.getDate() < 10 ? '0' : '') + dateObj.getDate();
+            var year = dateObj.getUTCFullYear();
+            var newdate = day + "-" + month + "-" + year;
+
+            var total_amount = orderId = 0
+
+            var ordId = String(response.data[0].id);
+            if (ordId.length == 1) {
+                orderId = String("000") + ordId
+            }
+            if (ordId.length == 2) {
+                orderId = String("00") + ordId
+            }
+            if (ordId.length == 3) {
+                orderId = ordId
+            }
+            total_amount += response.data[0].DocTotal - ((response.data[0].DocTotal * response.data[0].DiscountPercent)) * 100;
+            for (var i = 1; i <= response.data[0].DocumentLines.length; i++) {
+                var text = "";
+                text += '<tr>'
+                text += '<td>' + i + '</td>';
+                text += '<td>' + 'NA' + '</td>';
+                text += '<td>' + response.data[0].DocumentLines[0].ItemDescription + '</td>';
+                text += '<td>' + 'NA' + '</td>';
+                text += '<td>' + response.data[0].DocumentLines[0].Quantity + '</td>';
+                text += '<td>' + response.data[0].DocumentLines[0].UnitPrice + '</td>';
+                text += '<td>' + response.data[0].DocumentLines[0].DiscountPercent + '</td>';
+                text += '<td>' + 'NA' + '</td>';
+                text += '<td>' + response.data[0].DocumentLines[0].UnitPrice + '</td>';
+                text += '</tr>';
+                document.getElementById("api1").innerHTML += text;
+            }
+            var gst = "";
+            gst += '<tr>'
+            gst += '<td>' + "NA" + '</td>';
+            gst += '<td>' + "NA" + '</td>';
+            gst += '<td>' + "NA" + '</td>';
+            gst += '<td>' + "NA" + '</td>';
+            gst += '<td>' + "NA" + '</td>';
+            gst += '<td>' + "NA" + '</td>';
+            gst += '</tr>';
+            document.getElementById("gstrow").innerHTML += gst;
+            var totl = "";
+            totl += '<tr>'
+            totl += '<th>' + "Total" + '</th>';
+            totl += '<td>' + "NA" + '</td>';
+            totl += '<td>' + "NA" + '</td>';
+            totl += '<td>' + "NA" + '</td>';
+            totl += '<td>' + "NA" + '</td>';
+            totl += '<td>' + "NA" + '</td>';
+            totl += '</tr>';
+            document.getElementById("totalrow").innerHTML += totl;
+            document.getElementById("invoicenumber").innerHTML += 'Quot' + '/' + orderId;
+            document.getElementById("invoiceDate").innerHTML += newdate;
+            document.getElementById("invoiceduedate").innerHTML += response.data[0].DocDueDate;
+            document.getElementById("shipbuilding").innerHTML += response.data[0].AddressExtension.ShipToBuilding;
+            document.getElementById("shipaddress1").innerHTML += response.data[0].AddressExtension.ShipToStreet + ' ' + response.data[0].AddressExtension.ShipToCity + ' ' + response.data[0].AddressExtension.U_SSTATE + ' ' + response.data[0].AddressExtension.ShipToZipCode + ' ' + response.data[0].AddressExtension.U_SCOUNTRY;
+            document.getElementById("buildbuilding1").innerHTML += response.data[0].AddressExtension.BillToBuilding;
+            document.getElementById("buildaddress11").innerHTML += response.data[0].AddressExtension.BillToStreet + ' ' + response.data[0].AddressExtension.BillToCity + ' ' + response.data[0].AddressExtension.U_BSTATE + ' ' + response.data[0].AddressExtension.BillToZipCode + ' ' + response.data[0].AddressExtension.U_BCOUNTRY;
+            document.getElementById("email").innerHTML += response.data[0].ContactPersonCode[0].E_Mail;
+            document.getElementById("buildteliphone").innerHTML += !!response.data[0].ContactPersonCode[0].MobilePhone ? response.data[0].ContactPersonCode[0].MobilePhone : 'NA';
+            document.getElementById("shiptoaddress").innerHTML += response.data[0].AddressExtension.ShipToStreet + ' ' + response.data[0].AddressExtension.ShipToCity + ' ' + response.data[0].AddressExtension.U_SSTATE + ' ' + response.data[0].AddressExtension.ShipToZipCode + ' ' + response.data[0].AddressExtension.U_SCOUNTRY;
+
+            document.getElementById("totaldiscount").innerHTML += !!response.data[0].DiscountPercent ? response.data[0].DiscountPercent : 0 + '%';
+            document.getElementById("doctotal1").innerHTML += response.data[0].DocTotal;
+            document.getElementById("roundoff").innerHTML += Math.round(response.data[0].DocTotal);
+            document.getElementById("DocCurrency").innerHTML += !!response.data[0].DocCurrency ? response.data[0].DocCurrency : 'NA';
+
+            document.getElementById("tot_amt").innerHTML += total_amount;
+            //start table value
+
+            // value conver to number start
+            function number2text(value) {
+                var fraction = Math.round(frac(value) * 100);
+                var f_text = "";
+
+                if (fraction > 0) {
+                    f_text = "AND " + convert_number(fraction) + " PAISE";
+                }
+
+                return convert_number(value) + " RUPEE " + f_text + " ONLY";
+            }
+
+            function frac(f) {
+                return f % 1;
+            }
+
+            function convert_number(number) {
+                if ((number < 0) || (number > 999999999)) {
+                    return "NUMBER OUT OF RANGE!";
+                }
+                var Gn = Math.floor(number / 10000000); /* Crore */
+                number -= Gn * 10000000;
+                var kn = Math.floor(number / 100000); /* lakhs */
+                number -= kn * 100000;
+                var Hn = Math.floor(number / 1000); /* thousand */
+                number -= Hn * 1000;
+                var Dn = Math.floor(number / 100); /* Tens (deca) */
+                number = number % 100; /* Ones */
+                var tn = Math.floor(number / 10);
+                var one = Math.floor(number % 10);
+                var res = "";
+
+                if (Gn > 0) {
+                    res += (convert_number(Gn) + " CRORE");
+                }
+                if (kn > 0) {
+                    res += (((res == "") ? "" : " ") +
+                        convert_number(kn) + " LAKH");
+                }
+                if (Hn > 0) {
+                    res += (((res == "") ? "" : " ") +
+                        convert_number(Hn) + " THOUSAND");
+                }
+
+                if (Dn) {
+                    res += (((res == "") ? "" : " ") +
+                        convert_number(Dn) + " HUNDRED");
+                }
+
+
+                var ones = Array("", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN", "EIGHTEEN", "NINETEEN");
+                var tens = Array("", "", "TWENTY", "THIRTY", "FOURTY", "FIFTY", "SIXTY", "SEVENTY", "EIGHTY", "NINETY");
+
+                if (tn > 0 || one > 0) {
+                    if (!(res == "")) {
+                        res += " AND ";
+                    }
+                    if (tn < 2) {
+                        res += ones[tn * 10 + one];
+                    } else {
+
+                        res += tens[tn];
+                        if (one > 0) {
+                            res += ("-" + ones[one]);
+                        }
+                    }
+                }
+
+                if (res == "") {
+                    res = "zero";
+                }
+                return res;
+            }
+
+            var common = total_amount
+            document.getElementById("totalamountword").innerHTML += number2text(common);
+
+        });
+    </script>
+</body>
+
+</html>

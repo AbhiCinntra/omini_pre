@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>Receipt Voucher</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    <style>
+        body {
+            margin-top: 20px;
+            background: #eee;
+        }
+
+        .main-header {
+            background-color: #518DE3;
+            color: white;
+        }
+
+        .main-header .content h4 {
+            padding-left: 10px;
+        }
+
+        .main-header1 {
+            background-color: rgb(19, 19, 82);
+            color: white;
+            width: 100%;
+            display: flex;
+        }
+
+        .content {
+            width: 80%;
+        }
+
+        .bnk-dtl {
+            width: 19%;
+        }
+
+        .second {
+            width: 100%;
+            display: flex;
+        }
+
+        .left {
+            width: 70%;
+        }
+
+        .right {
+            width: 29%;
+        }
+
+        .right .quotaion-heading {
+            text-align: center;
+        }
+
+        .right-tbl {
+            margin-top: 100px;
+        }
+
+        .ftr1 {
+            text-align: center;
+        }
+
+        #api2 tr td {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .invoice {
+            background: #fff;
+            /* padding: 20px; */
+            padding: 46px;
+            width: fit-content;
+        }
+
+        .invoice-company {
+            font-size: 20px
+        }
+
+        .invoice-footer {
+            /* border-top: 1px solid #ddd; */
+            padding-top: 10px;
+            font-size: 10px
+        }
+
+        .invoice-footer p {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .invoice-note {
+            color: #999;
+            margin-top: 80px;
+            font-size: 85%
+        }
+
+        .invoice>div:not(.invoice-footer) {
+            margin-bottom: 20px
+        }
+
+        .ul>li {
+            list-style-type: none;
+        }
+
+        .btn.btn-white,
+        .btn.btn-white.disabled,
+        .btn.btn-white.disabled:focus,
+        .btn.btn-white.disabled:hover,
+        .btn.btn-white[disabled],
+        .btn.btn-white[disabled]:focus,
+        .btn.btn-white[disabled]:hover {
+            color: #2d353c;
+            background: #fff;
+            border-color: #d9dfe3;
+        }
+
+        table,
+        th,
+        td {
+
+            border-collapse: collapse;
+
+            padding: 8px;
+        }
+
+        .box {
+            margin: 0 10%;
+        }
+
+        .logo-img {
+            width: 185px
+        }
+
+        @media screen and (max-width: 600px) {
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                background-color: white;
+            }
+
+            .box {
+                width: 100vw;
+            }
+
+            .invoice-price .invoice-price-left,
+            .invoice-price .invoice-price-right {
+                padding: 0px;
+                font-size: 0px;
+            }
+
+            .invoice-price .invoice-price-right {
+                font-size: 5px;
+                text-align: center;
+            }
+
+            .box {
+                margin: 0 0%;
+            }
+
+            .second .left {
+                width: 45%;
+            }
+
+            .second .right {
+                width: 55%;
+            }
+
+            .right .quotaion-heading {
+                padding-left: 20px;
+            }
+
+            .logo-img {
+                width: 100px
+            }
+
+            .gst {
+                font-size: 12px;
+            }
+
+            .table-responsive {
+                overflow: scroll;
+            }
+
+            .ftr1 {
+                text-align: center;
+            }
+
+            .ftr1 span {
+                font-size: 10px;
+            }
+
+            .right-tbl {
+                margin-left: 10px;
+                margin-top: 56px;
+            }
+
+            .text-right {
+                font-size: 11px;
+            }
+
+            .test1 {
+                font-size: 13px;
+            }
+
+            .ul>li {
+                list-style-type: none;
+            }
+        }
+    </style>
+    <script>
+        function exportHTML() {
+            var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+                "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+                "xmlns='http://www.w3.org/TR/REC-html40'>" +
+                "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
+            var footer = "</body></html>";
+            var sourceHTML = header + document.getElementById("invoice").innerHTML + footer;
+
+            var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+            var fileDownload = document.createElement("a");
+            document.body.appendChild(fileDownload);
+            fileDownload.href = source;
+            fileDownload.download = 'document.doc';
+            fileDownload.click();
+            document.body.removeChild(fileDownload);
+        }
+    </script>
+</head>
+
+<body>
+    <section class="main-pd-wrapper" style="width: 1000px; margin: auto">
+        <div id="invoice">
+
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+            <div class="container box">
+                <div class="col-md-12">
+                    <div class="invoice">
+
+
+                        <!-- begin invoice-content -->
+                        <div class="invoice-content">
+                            <!-- begin table-responsive -->
+                            <div class="table-responsive">
+                                <!-- first-table-with-image-begin---------------------------------------- -->
+                                <table class="table table-invoice" style="width:750px">
+                                    <tr style="background-color: #518DE3;color: white;">
+
+                                        <div>
+                                            <div class="text-right ftr1" colspan="8">
+
+                                                <span> Ledure</span><br>
+                                                <span> A-40, Sector 58, Noida, Gautam Buddha Nagar Uttar</span><br>
+                                                <span> Phone No. : 1800 11 6373</span><br>
+                                                <span> PinCode. : 201301</span><br>
+                                                <span> E-Mail: info@ledure.com</span>
+
+                                            </div>
+
+                                        </div><br>
+                                        <div>
+                                            <div class="text-right ftr1" colspan="8">
+
+                                                <span>Receipt Voucher</span>
+
+                                            </div>
+                                        </div><br>
+                                        <div class="row">
+                                            <div style="display: flex; justify-content: space-between;">
+                                                <div><span style="text-align:left ;">No.:</span> <span id="doc"></span>&nbsp</div>
+                                                <div><span style="text-align:right ;">Date:</span> <span id="today"> 31 Mar 19 </span></div>
+                                            </div>
+                                        </div>
+                                        <br>
+
+
+                                    <tr>
+                                        <th style="width:50%; text-align: left;     border-top: 1px solid;
+                                    border-right: 1px solid;
+                                    border-bottom: 1px solid;">Particular</th>
+                                        <th style="width:50%;  text-align: right; border-top: 1px solid;
+
+                                    border-bottom: 1px solid;">Amount</th>
+
+
+                                    </tr>
+                                    <tr>
+                                        <td>Account:<br>
+                                            &nbsp<span id="cardName"></span><br>
+                                            &nbsp &nbsp &nbsp Agst Ref <span id="api"></span><br><br>
+                                            Through:<br>
+                                            &nbsp<span id="trans_account"></span><br>
+
+                                            &nbsp Check Date: <span id="tran-date"></span><br><br>
+                                            On Account of:<br>
+                                            &nbsp Post Dated Cheque</td>
+                                        <td style=" text-align: right;  border-top: 1px solid;
+                                    border-left: 1px solid;
+                                    border-bottom: 1px solid;" id="api1"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td style="width:50%;  text-align: right;  border-top: 1px solid;
+                                    border-left: 1px solid;
+                                    border-bottom: 1px solid;"" id="total"></td>
+                                    </tr>
+                                </table>
+                                <tfoot>
+
+                                </tfoot>
+                            </div>
+                        </div>
+
+                        <div class="invoice-footer" style="text-align: right">
+
+
+                            <p>Authorized Signatory</p>
+
+
+                        </div>
+                        <!-- end invoice-footer -->
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+    <script>
+        var str = window.location.href;
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = mm + '/' + dd + '/' + yyyy;
+        $("#today").html(today)
+        var currentId = str.substring(str.indexOf('?ReceiptId=') + 11);
+        var text = "";
+        var text1 = "";
+        let i = 1;
+
+
+        console.log(currentId);
+        
+        var settings = {
+            "url": "http://103.107.67.160:8001/invoice/one_receipt",
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({
+                "ReceiptId": currentId,
+            }),
+        };
+
+        $.ajax(settings).done(function (response) {
+            console.log('-->data', response)
+            $("#cardName").html(response.data[0].CardName);
+            $('#doc').html(response.data[0].DocEntry);
+            $('#trans_account').html(response.data[0].TransferAccount);
+            $('#tran-date').html(response.data[0].TransferDate)
+            $('#total').html(response.data[0].TransferSum);
+            console.log("total",response.data[0].TransferSum)
+            $.each(response.data[0].IncomingPaymentInvoices, function (key, val) {
+
+                text += '<ul>';
+                text += '<li>' + val.InvoiceDocEntry + '</li>';
+                text += '</ul>';
+                i++;
+
+                text1 += '<ul>';
+                text1 += '<li style="list-style-type: none; margin-bottom: 92px;">' + val.SumApplied + '</li>';
+                text1 += '</ul>';
+
+            })
+
+            document.getElementById("api").innerHTML += text;
+            document.getElementById("api1").innerHTML += text1;
+            // document.getElementById("total").innerHTML = totalval;
+
+
+        });
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

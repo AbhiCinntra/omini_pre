@@ -1,0 +1,23 @@
+Create A Admin
+Static Stage--done
+PaymentTermType--done
+Country--done
+State--done
+
+BP Department--done
+BP Position--done
+
+
+Emp Create
+Lead Create
+Task
+Event
+Chatter
+BP
+
+Opp
+
+Inventory
+Quotation
+Order
+Invoice
